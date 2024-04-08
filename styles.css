@@ -1,0 +1,41 @@
+/* Styles pour le bouton Accueil, la barre de recherche et le bouton Connexion */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+nav ul li input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+#connexion {
+    background-color: #007bff;
+}
