@@ -1,7 +1,7 @@
 <?php
 include "connexionBDD.php"
 ?>
-
+<!--
 <h2> Identification </h2>
  <form action="" method="post">
     <div>
@@ -10,7 +10,7 @@ include "connexionBDD.php"
             <input type="submit" value="Envoyer"/>
 </div>
 </form>
-
+!-->
 
 <?php
 if (!empty($_POST['login']) && !empty($_POST['mdp'])) {
@@ -29,9 +29,11 @@ if (!empty($_POST['login']) && !empty($_POST['mdp'])) {
 
         if ($row) {
             $mdpHash = hash('sha256', $_POST['mdp']);
-            
+        
             if ($mdpHash === $row['mdp']) {
                 echo "<br/> Vous êtes connecté " . $row['login'];
+                header("Location: site.php");
+                exit;
             } else {
                 echo "<br/> Mot de passe incorrect.";
             }
@@ -41,3 +43,6 @@ if (!empty($_POST['login']) && !empty($_POST['mdp'])) {
     }
 }
 ?>
+
+
+

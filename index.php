@@ -1,3 +1,7 @@
+<?php
+include "connexionBDD.php"
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,22 +11,73 @@
  
 </head>
 <body>
+    
+
+<?php
+
+if (!empty($_POST['login']) && !empty($_POST['mdp'])) 
+{
+    
+    $pdo = cnx(); 
+
+    if ($pdo) 
+    {
+        $sql = "SELECT login, mdp FROM utilisateur WHERE login = :login"; 
+      
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(array(':login' => $_POST['login'])); 
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) 
+        {
+            $mdpHash = hash('sha256', $_POST['mdp']);
+
+            if ($mdpHash === $row['mdp']) 
+            {
+                header("Location: site.php");
+                exit;
+            } 
+            else 
+            {
+                $message ="<br/> Mot de passe incorrect.";
+            }
+        } 
+        else 
+        {
+            $message = "<br/>" . $_POST['login'] . " n'existe pas !";
+        }
+    }
+    else
+    {
+        $message ="La connexion à la base de données a échoué.";
+    }
+}  
+?>
+            
     <div class="login-container">
-        <h2>Connexion</h2>
-        <form class="login-form" action="traitement.php" method="post">
-            <div>
-                <label for="username">Nom d'utilisateur :</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div>
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <input type="submit" value="Se connecter">
-        </form>
+    <h2>Connexion</h2>
+    <form class="login-form" action="index.php" method="post">
+        <div>
+            <label for="login">Nom d'utilisateur :</label>
+            <input type="text" id="login" name="login" required>
+        </div>
+        <div>
+            <label for="mdp">Mot de passe :</label>
+            <input type="password" id="password" name="mdp" required>
+        </div>
+        <input type="submit" value="Se connecter">
+    </form>
+    <?php if(isset($message)) { echo "<p>$message</p>"; } ?>
     </div>
 </body>
 
+
+
+
+
+<!--  CSS PAGE D'ACCUEIL!-->
 <style>
         body {
             font-family: Arial, sans-serif;
